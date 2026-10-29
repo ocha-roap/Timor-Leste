@@ -2,7 +2,7 @@
 
 Draft dashboard by OCHA ROAP Information Management on the El Niño situation and outlook in Timor-Leste, for every administrative post.
 
-**View it:** open `index.html` in a browser, or the GitHub Pages address of this repository once Pages is turned on.
+**View it:** https://ocha-roap.github.io/Timor-Leste/CDI-dashboard/ (or open `CDI-dashboard/index.html` in a browser).
 
 ## Pages
 
@@ -24,11 +24,11 @@ Draft dashboard by OCHA ROAP Information Management on the El Niño situation an
 | National crop calendar and expected impacts | OCHA, Asia and the Pacific Snapshot (28 August 2026) |
 | Basemap | UN OCHA ROAP Mapbox style |
 
-All data are embedded in `index.html`; nothing else needs to be uploaded. An internet connection is needed for the basemap, the map library (Mapbox GL JS), d3 and the Roboto font.
+All data are embedded in `CDI-dashboard/index.html`; nothing else needs to be uploaded. An internet connection is needed for the basemap, the map library (Mapbox GL JS), d3 and the Roboto font.
 
 ## Updating
 
-The page is generated from the project source with `WebApp/scripts/build_standalone.ps1`. To update, rebuild it there and replace `index.html` in this repository.
+The page is generated from the project source with `WebApp/scripts/build_standalone.ps1`. To update, rebuild it there and replace `CDI-dashboard/index.html` in this repository.
 
 ## Disclaimer
 
