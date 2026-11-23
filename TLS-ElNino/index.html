@@ -2072,10 +2072,13 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
 
 <style>
   #dash-root { --dash-gutter: clamp(16px, 3vw, 28px); }
-  .tl { --brand: #009EDB; --brand-dark: #0074B7; --brand-deep: #004987; --r-lg: 16px; --r-md: 12px; --r-sm: 8px;
+  /* One blue only: UN Blue. Text colours and the two fonts (Roboto for text, Roboto Condensed for headings,
+     labels and the menu) as on the OCHA ROAP El Niño snapshot country profiles */
+  .tl { --brand: #009EDB; --brand-dark: #009EDB; --brand-deep: #009EDB; --r-lg: 16px; --r-md: 12px; --r-sm: 8px;
+    --font-cond: "TL Roboto", "Roboto Condensed", "Arial Narrow", sans-serif;
     --soft: 0 1px 2px rgba(16, 42, 67, .06), 0 4px 14px rgba(16, 42, 67, .06);
     /* Always a white page, whatever the viewer's theme */
-    --color-bg: #ffffff; --color-panel: #ffffff; --color-fg: #1a1f24; --color-fg-muted: #5b6672; --color-border-line: #dfe5ec; --cds-surface-popover: #ffffff;
+    --color-bg: #ffffff; --color-panel: #ffffff; --color-fg: #1a1a1a; --color-fg-muted: #595959; --color-border-line: #dfe5ec; --cds-surface-popover: #ffffff;
     color-scheme: light; background: #ffffff; padding: clamp(10px, 1.6vw, 18px); border-radius: 20px;
     max-width: 1320px; margin-inline: auto; display: grid; gap: 22px; color: var(--color-fg); font-size: var(--cds-font-size-body);
     font-family: "TL Roboto", Roboto, Arial, Helvetica, sans-serif; }
@@ -2089,20 +2092,35 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
   .tl-title { margin: 0; font-weight: 700; font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.12; color: var(--brand); text-transform: uppercase; text-wrap: balance; }
   .tl-subtitle { margin: 0; max-width: 78ch; font-size: 14px; line-height: 1.45; color: var(--color-fg); }
   .tl-intro { display: grid; gap: 2px; padding: 0 2px; }
-  .tl-asof { margin: 2px 0 0; font-size: 13px; font-style: italic; color: var(--brand); }
+  .tl-asof { margin: 2px 0 0; font-size: 12px; font-style: italic; font-weight: 400; color: #404040; }
   /* OCHA Humanitarian Icon on each key figure */
   .tl-ico { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: var(--brand); background: color-mix(in srgb, var(--brand) 10%, transparent); margin-bottom: 2px; }
   .tl-ico svg { width: 26px; height: 26px; display: block; }
-  /* Tabs as pills */
-  .tl-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
-  .tl-tab { font: inherit; font-size: 14px; font-weight: 500; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 9px 18px; color: var(--color-fg); cursor: pointer; box-shadow: var(--soft); transition: background 150ms, color 150ms; }
-  .tl-tab:hover { border-color: var(--brand); }
-  .tl-tab[aria-selected="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
+  /* Pages as a menu bar under the header rule, as on the OCHA ROAP El Niño snapshot */
+  .tl-tabs { display: flex; gap: 4px clamp(18px, 3vw, 38px); flex-wrap: wrap; margin-top: -22px; padding: 0 2px; }
+  .tl-tab { font: inherit; font-family: "TL Roboto", "Roboto Condensed", "Arial Narrow", sans-serif; font-stretch: 75%; font-size: 17px; font-weight: 700; letter-spacing: .04em; background: none; border: 0; border-bottom: 4px solid transparent; border-radius: 0; padding: 14px 0 10px; color: var(--brand-dark); cursor: pointer; box-shadow: none; transition: color 150ms, border-color 150ms; }
+  .tl-tab:hover { color: #000; border-bottom-color: color-mix(in srgb, var(--brand) 35%, transparent); }
+  .tl-tab[aria-selected="true"] { color: #000; border-bottom-color: var(--brand-dark); }
+  /* Dropdown under a menu bar item: opens on hover, or on focus for keyboard and touch */
+  .tl-dd { position: relative; display: flex; }
+  /* As on the OCHA ROAP El Niño snapshot, in UN Blue: the open item is boxed, the menu lists a name and a short line for each choice */
+  .tl-dd > .tl-tab { padding-inline: 10px; margin-inline: -10px; border: 1.5px solid transparent; border-bottom-width: 4px; }
+  .tl-dd > .tl-tab[aria-selected="true"] { border-bottom-color: var(--brand-dark); }
+  .tl-dd:hover > .tl-tab, .tl-dd:focus-within > .tl-tab { border-color: var(--brand); border-bottom-color: var(--brand); color: var(--brand); background: #fff; }
+  .tl-dd-caret { display: inline-block; margin-left: 7px; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-3px) rotate(45deg); transition: transform 150ms; }
+  .tl-dd:hover .tl-dd-caret, .tl-dd:focus-within .tl-dd-caret { transform: translateY(1px) rotate(-135deg); }
+  .tl-dd-menu { position: absolute; z-index: 50; top: 100%; left: -10px; min-width: 15.5rem; padding: 4px 0; background: #fff; border: 1px solid var(--color-border-line); box-shadow: 0 6px 18px rgba(16, 42, 67, .14); display: none; }
+  .tl-dd:hover .tl-dd-menu, .tl-dd:focus-within .tl-dd-menu { display: grid; }
+  .tl-dd-item { font: inherit; text-align: left; background: none; border: 0; border-radius: 0; padding: 9px 14px; cursor: pointer; display: grid; gap: 2px; }
+  .tl-dd-item .t { font-family: "TL Roboto", "Roboto Condensed", "Arial Narrow", sans-serif; font-stretch: 75%; font-size: 15px; font-weight: 700; color: var(--brand); }
+  .tl-dd-item .d { font-size: 11.5px; color: var(--color-fg-muted); }
+  .tl-dd-item:hover, .tl-dd-item[aria-pressed="true"] { background: color-mix(in srgb, var(--brand) 9%, #fff); }
+  .tl-dd-item[aria-pressed="true"] .t { color: var(--brand-dark); }
   .tl button:focus-visible, .tl select:focus-visible, .tl input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   .tl-page { display: grid; gap: 22px; }
   /* Sections as rounded cards */
   .tl-block { display: grid; gap: 10px; align-content: start; min-width: 0; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--r-lg); padding: 20px 22px; box-shadow: var(--soft); }
-  .tl-block > div:not(.tl-chart):not(.tl-tablebox):not(.tl-mapframe):not(.tl-seg):not(.tl-filters):not(.tl-keyrow):not(.tl-stats) { display: grid; gap: 10px; }
+  .tl-block > div:not(.tl-chart):not(.tl-tablebox):not(.tl-mapframe):not(.tl-seg):not(.tl-filters):not(.tl-keyrow):not(.tl-stats):not(.tl-prio) { display: grid; gap: 10px; }
   .tl-h { margin: 0; font-weight: 700; font-size: 17px; line-height: 1.3; }
   .tl-note { margin: 0; font-size: 13px; color: var(--color-fg-muted); line-height: 1.5; }
   .tl-filters { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; padding: 14px 18px; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--r-lg); box-shadow: var(--soft); }
@@ -2111,11 +2129,11 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
   .tl-btn { font: inherit; font-size: 13px; font-weight: 500; padding: 7px 14px; border: 1px solid var(--color-border-line); border-radius: 999px; background: var(--color-bg); color: var(--color-fg); cursor: pointer; transition: background 150ms, color 150ms, border-color 150ms; }
   .tl-btn:hover { border-color: var(--brand); color: var(--brand-dark); }
   .tl-summary { display: grid; gap: 10px; }
-  .tl-summary .tl-lead { font-size: 15.5px; line-height: 1.6; max-width: 120ch; }
+  .tl-summary .tl-lead { font-size: 15.5px; line-height: 1.6; max-width: none; }
   .tl-more { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
-  .tl-prose { display: grid; gap: 10px; max-width: 120ch; }
+  .tl-prose { display: grid; gap: 10px; }
   .tl-prose p { margin: 0; font-size: 14.5px; line-height: 1.65; }  .tl-linkbtn { display: inline-block; justify-self: start; text-decoration: none; background: var(--brand); border-color: var(--brand); color: #fff; }
-  .tl-linkbtn:hover { background: var(--brand-dark); border-color: var(--brand-dark); color: #fff; }
+  .tl-linkbtn:hover { background: #fff; border-color: var(--brand); color: var(--brand); }
   .tl-btn[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
   .tl-seg { display: flex; flex-wrap: wrap; gap: 6px; }
   /* Administrative post multi-select */
@@ -2190,9 +2208,9 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
   .tl-defs dd { margin: 0; color: var(--color-fg-muted); }
   @media (max-width: 520px) { .tl-defs { grid-template-columns: 1fr; } .tl-defs dd { margin-bottom: 6px; } }
   /* Methodology and climate driver cards */
-  .tl-kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #5b7ba3; margin: 0; }
+  .tl-kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); margin: 0; }
   .tl-lead { margin: 0; font-size: 14.5px; line-height: 1.6; max-width: 110ch; }
-  .tl-callout { padding: 14px 18px; border-radius: var(--r-md); border-left: 4px solid #5b7ba3; background: #f1f5fa; font-size: 14px; line-height: 1.6; }
+  .tl-callout { padding: 14px 18px; border-radius: var(--r-md); background: #f1f5fa; font-size: 14px; line-height: 1.6; }
   .tl-callout p { margin: 0; }
   .tl-callout p + p { margin-top: 8px; }
   .tl-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 12px; }
@@ -2225,6 +2243,26 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
   .tl-keyrow { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--color-fg-muted); }
   .tl-keyrow span { display: inline-flex; gap: 6px; align-items: center; }
   .tl-foot { padding: 14px 18px; border-radius: var(--r-md); background: color-mix(in srgb, var(--brand) 6%, var(--color-panel)); display: grid; gap: 4px; font-size: 12px; color: var(--color-fg-muted); line-height: 1.5; }
+  .tl-foot .tl-foot-about { font-style: italic; font-size: 13px; color: var(--color-fg); }
+  /* Section headings and page buttons in capitals */
+  .tl-h, .tl-tab { text-transform: uppercase; letter-spacing: .02em; }
+  /* (i) button in a heading that opens a short note */
+  .tl-info { position: relative; display: inline-block; vertical-align: middle; margin-left: 6px; }
+  .tl-info > summary { list-style: none; cursor: pointer; width: 1.35rem; height: 1.35rem; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; font-style: italic; text-transform: none; color: var(--brand-dark); border: 1.5px solid var(--brand); background: #fff; }
+  .tl-info > summary::-webkit-details-marker { display: none; }
+  .tl-info[open] > summary, .tl-info > summary:hover { background: var(--brand); color: #fff; }
+  .tl-info-pop { position: absolute; z-index: 40; top: calc(100% + 8px); left: 0; width: min(34rem, 82vw); background: #fff; border: 1px solid var(--color-border-line); border-radius: var(--r-md); box-shadow: 0 8px 28px rgba(16, 42, 67, .16); padding: 14px 16px; font-size: 13px; line-height: 1.55; color: var(--color-fg); text-transform: none; letter-spacing: 0; font-weight: 400; display: grid; gap: 8px; }
+  .tl-info-pop p { margin: 0; }
+  .tl-info-pop .tl-defs { font-size: 12.5px; }
+  /* Response and priorities, as in the OCHA ROAP country profile */
+  .tl-prio { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 18px 22px; }
+  .tl-prio > div { border-top: 3px solid var(--c); padding-top: 10px; display: grid; gap: 6px; align-content: start; }
+  .tl-prio h3 { margin: 0; font-size: 15px; font-weight: 700; text-transform: uppercase; color: var(--t, var(--c)); }
+  /* Roboto Condensed for every heading, label and figure; Roboto for text */
+  .tl-eyebrow, .tl-h, .tl-kicker, .tl-tab, .tl-dd-item .t, .tl-prio h3, .tl-fig, .tl-kf-label, .tl-stat .k, .tl-stat .v,
+  .tl-plain th, .tl-imp-head, .tl-risk-badge, .tl-legend .lt, .tl-defs dt, .tl-field, .tl th button, .tl-btn {
+    font-family: var(--font-cond); font-stretch: 75%; }
+  .tl-prio ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 6px; font-size: 14px; line-height: 1.5; }
 </style>
 
 <div class="tl">
@@ -2232,43 +2270,28 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
     <div class="tl-head-text">
       <span class="tl-eyebrow">Agricultural drought decision support</span>
       <h1 class="tl-title">Timor-Leste: El Niño Situation and Outlook</h1>
+      <p class="tl-asof">Analysis as of Sep–Oct 2026</p>
     </div>
   </header>
 
-  <div class="tl-intro" id="intro">
-    <p class="tl-subtitle">Combined Drought Index (CDI), ENSO outlook, INFORM risk and vulnerability, and crop calendars for every administrative post, from FAO, NOAA and UNOSAT data.</p>
-    <p class="tl-asof">As of <span data-draw="period" data-source="periods" data-field="label">—</span> · Rainfall forecast for <span data-draw="period" data-source="periods" data-field="fc_label">—</span></p>
-  </div>
-
   <nav class="tl-tabs" role="tablist" aria-label="Dashboard pages">
     <button class="tl-tab" role="tab" data-tab="cdi" aria-selected="true">Overview</button>
-    <button class="tl-tab" role="tab" data-tab="risk" aria-selected="false">Risk and vulnerability</button>
+    <!-- Risk dimensions as a dropdown of the Risk and vulnerability page -->
+    <div class="tl-dd">
+      <button class="tl-tab" role="tab" data-tab="risk" aria-selected="false" aria-haspopup="true">Risk and vulnerability<span class="tl-dd-caret" aria-hidden="true"></span></button>
+      <div class="tl-dd-menu" role="menu" aria-label="Risk dimension">
+        <button class="tl-dim tl-dd-item" role="menuitemradio" data-dim="risk" aria-pressed="false"><span class="t">Risk</span><span class="d">Overall INFORM risk score</span></button>
+        <button class="tl-dim tl-dd-item" role="menuitemradio" data-dim="hz" aria-pressed="false"><span class="t">Hazard</span><span class="d">Flood, drought, landslide, cyclone wind</span></button>
+        <button class="tl-dim tl-dd-item" role="menuitemradio" data-dim="vu" aria-pressed="true"><span class="t">Vulnerability</span><span class="d">Development, agriculture, health</span></button>
+        <button class="tl-dim tl-dd-item" role="menuitemradio" data-dim="cc" aria-pressed="false"><span class="t">Lack of coping capacity</span><span class="d">Governance, services, infrastructure</span></button>
+      </div>
+    </div>
     <button class="tl-tab" role="tab" data-tab="crop" aria-selected="false">Crop calendar</button>
-    <button class="tl-tab" role="tab" data-tab="method" aria-selected="false">Methodology</button>
+    <button class="tl-tab" role="tab" data-tab="method" aria-selected="false">Sources and methodology</button>
   </nav>
 
   <!-- ============ Page 1: CDI overview ============ -->
   <section class="tl-page" id="cdi">
-    <div class="tl-filters">
-      <label class="tl-field">Data period
-        <select class="tl-input" data-draw="periodsel" data-source="periods" aria-label="Data period"></select>
-      </label>
-      <div class="tl-field">Administrative post
-        <div class="tl-ms">
-          <button class="tl-input tl-ms-btn" type="button" aria-haspopup="true" aria-expanded="false"><span data-draw="apsummary" data-source="ap_view">—</span><span class="tl-ms-caret" aria-hidden="true">▾</span></button>
-          <div class="tl-ms-panel" hidden>
-            <input class="tl-input tl-ms-search" type="search" placeholder="Find administrative post" aria-label="Find administrative post">
-            <div class="tl-ms-list" data-draw="aplist" data-source="ap_view"></div>
-            <div class="tl-ms-foot">
-              <button class="tl-btn tl-ms-clear" type="button">Clear all</button>
-              <button class="tl-btn tl-ms-done" type="button" aria-pressed="true">Done</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="tl-btn tl-clear" hidden>Show all administrative posts</button>
-    </div>
-
     <!-- Country summary: OCHA ROAP El Niño snapshot, Timor-Leste country profile -->
     <div class="tl-summary">
       <p class="tl-lead">Timor-Leste is among the five countries of highest immediate concern, with drier conditions expected through all three waves. Drought hotspots are emerging ahead of the main planting season, anticipatory-action thresholds have been exceeded in parts of the west, centre and east, and the country is shifting from El Niño monitoring to coordinated anticipatory action.</p>
@@ -2313,7 +2336,6 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
         <span class="tl-kf-note">Flow at the Tohumeta-Comoro intake in October, down from 166 litres a second</span>
       </div>
     </div>
-    <p class="tl-note" style="margin-top:-12px">Key figures: OCHA ROAP, Snapshot of El Niño, IOD &amp; Middle East Crisis, Timor-Leste country profile (November 2026), <a href="https://ocharoap.web.app/elnino-dashboard/timor-leste.html" target="_blank" rel="noopener">ocharoap.web.app</a>.</p>
 
     <div class="tl-block" id="situation">
       <h2 class="tl-h">Situation and outlook</h2>
@@ -2323,9 +2345,40 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
         <p><b>Outlook:</b> drier conditions in all three waves, from November 2026 into March 2027 and beyond (Wave 3 subject to local agricultural exposure and rainfall). Rainfall deficits during the November–May agricultural season could disrupt successive maize and rice cycles.</p>
       </div>
     </div>
+
+    <div class="tl-filters">
+      <label class="tl-field">Data period
+        <select class="tl-input" data-draw="periodsel" data-source="periods" aria-label="Data period"></select>
+      </label>
+      <div class="tl-field">Administrative post
+        <div class="tl-ms">
+          <button class="tl-input tl-ms-btn" type="button" aria-haspopup="true" aria-expanded="false"><span data-draw="apsummary" data-source="ap_view">—</span><span class="tl-ms-caret" aria-hidden="true">▾</span></button>
+          <div class="tl-ms-panel" hidden>
+            <input class="tl-input tl-ms-search" type="search" placeholder="Find administrative post" aria-label="Find administrative post">
+            <div class="tl-ms-list" data-draw="aplist" data-source="ap_view"></div>
+            <div class="tl-ms-foot">
+              <button class="tl-btn tl-ms-clear" type="button">Clear all</button>
+              <button class="tl-btn tl-ms-done" type="button" aria-pressed="true">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="tl-btn tl-clear" hidden>Show all administrative posts</button>
+    </div>
+
     <div class="tl-cols">
       <div class="tl-block" id="cdi-map">
-        <h2 class="tl-h">Map · <span data-draw="layername">—</span></h2>
+        <h2 class="tl-h">Map <span data-draw="layername">—</span><details class="tl-info"><summary aria-label="About the data">i</summary><div class="tl-info-pop">
+          <dl class="tl-defs">
+            <dt>CDI</dt><dd>Combined Drought Index from FAO Timor-Leste, from 0 to 1. Higher values mean climate drivers point more strongly to agricultural drought.</dd>
+            <dt>Rainfall anomaly (CHIRPS)</dt><dd>Rainfall for the observed month compared with normal, from CHIRPS satellite rainfall. Below zero is drier than normal.</dd>
+            <dt>Soil moisture anomaly (SM)</dt><dd>Soil moisture for the observed month compared with normal. Below zero is drier than normal.</dd>
+            <dt>Vegetation index (VI)</dt><dd>Vegetation condition for the observed month. Lower values mean less healthy vegetation; the map uses the vegetation condition guide of the PNG El Niño platform (below 0.35 high stress, 0.35–0.50 moderate, 0.50–0.65 watch, above 0.65 lower stress).</dd>
+            <dt>Rainfall forecast (fcRain3)</dt><dd>Forecast rainfall for the next three months compared with normal. Below zero is drier than normal.</dd>
+            <dt>ENSO, IOD</dt><dd>National flags for El Niño–Southern Oscillation and the Indian Ocean Dipole, as given in the CDI file.</dd>
+            <dt>Map classes</dt><dd>The CDI map uses the seven bands and colours of the FAO CDI map for Timor-Leste; the other maps use five classes (four for the vegetation index). All limits are fixed and shown in the map legend, so that months can be compared.</dd>
+          </dl>
+        </div></details></h2>
         <div class="tl-seg" role="group" aria-label="Map layer">
           <button class="tl-btn tl-layer" data-layer="CDI" aria-pressed="true">CDI</button>
           <button class="tl-btn tl-layer" data-layer="CHIRPS" aria-pressed="false">Rainfall anomaly</button>
@@ -2391,8 +2444,7 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
 
     <div class="tl-block" id="enso">
       <p class="tl-kicker">Climate driver context</p>
-      <h2 class="tl-h" style="font-size: 20px">ENSO / IOD outlook</h2>
-      <div class="tl-callout"><p><b>About this card:</b> El Niño–Southern Oscillation (ENSO, measured by the Relative Oceanic Niño Index, RONI) and the Indian Ocean Dipole (IOD, measured by the Dipole Mode Index, DMI) are national-scale climate indices, not administrative post measurements. In the CDI they enter as one flag for the whole country (ENSO 20%, IOD 10%).</p></div>
+      <h2 class="tl-h">ENSO / IOD outlook<details class="tl-info"><summary aria-label="About this card">i</summary><div class="tl-info-pop"><p>El Niño–Southern Oscillation (ENSO, measured by the Relative Oceanic Niño Index, RONI) and the Indian Ocean Dipole (IOD, measured by the Dipole Mode Index, DMI) are national-scale climate indices, not administrative post measurements. In the CDI they enter as one flag for the whole country (ENSO 20%, IOD 10%).</p></div></details></h2>
       <div class="tl-stats">
         <div class="tl-stat"><span class="k">ENSO state</span><span class="v" style="font-size: 1.5rem">Very strong El Niño</span><span class="n">WMO (8 Oct 2026): El Niño is firmly established and strengthening rapidly. NOAA CPC (Oct 2026): RONI +2.47 °C for SON, 100% chance of a very strong event (2.0 °C or more). CDI flag: <b data-draw="enso" data-source="ap_view" data-what="enso">—</b>.</span></div>
         <div class="tl-stat"><span class="k">IOD state</span><span class="v" style="font-size: 1.5rem">Positive IOD</span><span class="n">WMO (8 Oct 2026): positive Indian Ocean Dipole, expected to peak in October and then decline; October–December anomaly about +0.5 °C. CDI flag: <b data-draw="enso" data-source="ap_view" data-what="iod">—</b>.</span></div>
@@ -2409,34 +2461,54 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
           <div class="tl-keyrow" data-draw="ensokey" data-kind="prob">—</div>
         </div>
       </div>
-      <p class="tl-note">NOAA Climate Prediction Center official ENSO outlook, issued <span data-draw="enso" data-source="enso_outlook" data-what="issued">—</span> (cpc.ncep.noaa.gov), based on thresholds in the Relative Niño 3.4 index (RONI); three-month seasons. Stronger events do not always mean bigger impacts, but make certain impacts more likely. ENSO and IOD state from the WMO El Niño/La Niña and Global Seasonal Climate Updates (wmo.int).</p>
+      <p class="tl-note">NOAA official ENSO outlook issued <span data-draw="enso" data-source="enso_outlook" data-what="issued">—</span>, based on thresholds in the Relative Niño 3.4 index (RONI); three-month seasons. Stronger events do not always mean bigger impacts, but make certain impacts more likely.</p>
     </div>
 
-    <div class="tl-block" id="about-cdi">
-      <h2 class="tl-h">About the data</h2>
-      <dl class="tl-defs">
-        <dt>CDI</dt><dd>Combined Drought Index from FAO Timor-Leste, from 0 to 1. Higher values mean climate drivers point more strongly to agricultural drought.</dd>
-        <dt>Rainfall anomaly (CHIRPS)</dt><dd>Rainfall for the observed month compared with normal, from CHIRPS satellite rainfall. Below zero is drier than normal.</dd>
-        <dt>Soil moisture anomaly (SM)</dt><dd>Soil moisture for the observed month compared with normal. Below zero is drier than normal.</dd>
-        <dt>Vegetation index (VI)</dt><dd>Vegetation condition for the observed month. Lower values mean less healthy vegetation; the map uses the vegetation condition guide of the PNG El Niño platform (below 0.35 high stress, 0.35–0.50 moderate, 0.50–0.65 watch, above 0.65 lower stress).</dd>
-        <dt>Rainfall forecast (fcRain3)</dt><dd>Forecast rainfall for the next three months compared with normal. Below zero is drier than normal.</dd>
-        <dt>ENSO, IOD</dt><dd>National flags for El Niño–Southern Oscillation and the Indian Ocean Dipole, as given in the CDI file.</dd>
-        <dt>Map classes</dt><dd>The CDI map uses the seven bands and colours of the FAO CDI map for Timor-Leste; the other maps use five classes (four for the vegetation index). All limits are fixed and shown in the map legend, so that months can be compared.</dd>
-      </dl>
+    <!-- Response and priorities: OCHA ROAP El Niño snapshot, Timor-Leste country profile (November 2026) -->
+    <div class="tl-block" id="response">
+      <h2 class="tl-h">Response and priorities</h2>
+      <p class="tl-lead" style="max-width:none">Timor-Leste has revised its National Drought Anticipatory Action Protocol (TL-NDAAP). Led by the Civil Protection Authority (CPA) and FAO, with the Ministry of Agriculture, Livestock, Fisheries and Forestry (MALFF), the National Directorate of Meteorology and Geophysics (DNMG), the National Anticipatory Action Technical Working Group and other national stakeholders, the Protocol sets a nationally coordinated framework for drought monitoring, early-warning triggers, anticipatory action and resource mobilization.</p>
+      <div class="tl-prio">
+        <div style="--c:#D0103A">
+          <h3>Immediate priorities</h3>
+          <ul>
+            <li>Act ahead of worsening conditions under the TL-NDAAP</li>
+            <li>Protect agricultural livelihoods through the November–May season</li>
+            <li>Reduce the need for harmful coping strategies among the most vulnerable households</li>
+          </ul>
+        </div>
+        <div style="--c:#009EDB">
+          <h3>What to watch</h3>
+          <ul>
+            <li>CDI updates and areas exceeding anticipatory-action thresholds</li>
+            <li>Rainfall against maize and rice planting, November–May</li>
+            <li>Dili water supply and household water shortages</li>
+            <li>Rice and imported cereal prices</li>
+          </ul>
+        </div>
+        <div style="--c:#F58220;--t:#B05A00">
+          <h3>Gender, age and protection</h3>
+          <ul>
+            <li>In the 2023–2024 El Niño, households reduced meals, sold productive assets and withdrew children from school</li>
+            <li>Women and girls face more unpaid care work and less access to food and resources</li>
+            <li>Around 100,000 children under five could face elevated nutritional risks (UNICEF, to be verified)</li>
+          </ul>
+        </div>
+        <div style="--c:#72BF44;--t:#3F7D20">
+          <h3>Why it could be worse</h3>
+          <ul>
+            <li>Food insecurity was already more severe in 2023 than ahead of the 2015/16 El Niño</li>
+            <li>Another major drought could have faster and deeper consequences, particularly for women and children</li>
+            <li>About 60% of cereals are imported</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ============ Page 2: Risk and vulnerability (INFORM) ============ -->
   <section class="tl-page" id="risk" hidden>
     <div class="tl-filters">
-      <div class="tl-field">Risk dimension
-        <div class="tl-seg" role="group" aria-label="Risk dimension">
-          <button class="tl-btn tl-dim" data-dim="risk" aria-pressed="false">Risk</button>
-          <button class="tl-btn tl-dim" data-dim="hz" aria-pressed="false">Hazard</button>
-          <button class="tl-btn tl-dim" data-dim="vu" aria-pressed="true">Vulnerability</button>
-          <button class="tl-btn tl-dim" data-dim="cc" aria-pressed="false">Lack of coping capacity</button>
-        </div>
-      </div>
       <label class="tl-field tl-indsel" data-dim="risk" hidden>Indicator view
         <select class="tl-input tl-ind" aria-label="Risk indicator">
           <option value="informscore">All (INFORM risk score)</option>
@@ -2534,7 +2606,7 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
 
     <div class="tl-cols">
       <div class="tl-block" id="risk-map">
-        <h2 class="tl-h">Map · <span data-draw="indname">—</span></h2>
+        <h2 class="tl-h">Map <span data-draw="indname">—</span></h2>
         <div class="tl-mapframe">
           <div class="tl-zoom">
             <button class="tl-btn tl-zoombtn" data-z="in" data-kind="risk" aria-label="Zoom in">+</button>
@@ -2703,7 +2775,7 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
   <section class="tl-page" id="method" hidden>
     <div class="tl-block" id="about-cdi-method">
       <p class="tl-kicker">FAO methodology</p>
-      <h2 class="tl-h" style="font-size: 22px">About the Combined Drought Index (CDI)</h2>
+      <h2 class="tl-h">About the Combined Drought Index (CDI)</h2>
       <p class="tl-lead">The Combined Drought Index (CDI) is used by FAO in Timor-Leste to assess agricultural drought severity and to support anticipatory action. It follows published research (Isaev E, Yuave N, Inape K, Jones C, Dawa L &amp; Sidle RC, 2024, <i>Agricultural Drought-Triggering for Anticipatory Action in Papua New Guinea</i>, Water 16, 2009) and is computed for each of the 65 administrative posts of Timor-Leste, every month, from free and open data sources.</p>
       <div class="tl-tablebox" style="max-height: none">
         <table class="tl-plain">
@@ -2725,18 +2797,24 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
     </div>
 
     <div class="tl-block" id="about-other-data">
-      <h2 class="tl-h">Other data in this dashboard</h2>
+      <h2 class="tl-h">Sources</h2>
       <dl class="tl-defs">
-        <dt>ENSO outlook</dt><dd>NOAA Climate Prediction Center official ENSO outlook for the Relative Oceanic Niño Index (RONI), with its forecast ranges and El Niño, neutral and La Niña probabilities, as published.</dd>
-        <dt>Risk and vulnerability</dt><dd>INFORM sub-national risk model for Timor-Leste by FAO and UNOSAT, last updated February 2025.</dd>
-        <dt>Crop calendar</dt><dd>FAO crop phenology per suco for maize and rice, seasons 1 and 2: start, middle and end of season in dekads (10-day periods).</dd>
+        <dt>Combined Drought Index</dt><dd>FAO Timor-Leste, monthly CDI file by administrative post (observation and three-month rainfall forecast).</dd>
+        <dt>Situation, key figures, response and priorities</dt><dd>OCHA ROAP, Snapshot of El Niño, IOD &amp; Middle East Crisis, Timor-Leste country profile (November 2026), citing IPC, WFP and DHS 2025–26: <a href="https://ocharoap.web.app/elnino-dashboard/timor-leste.html" target="_blank" rel="noopener">ocharoap.web.app</a>.</dd>
+        <dt>ENSO outlook</dt><dd>NOAA Climate Prediction Center official ENSO outlook for the Relative Oceanic Niño Index (RONI), with its strength probabilities and El Niño, neutral and La Niña probabilities, as published (<a href="https://www.cpc.ncep.noaa.gov/" target="_blank" rel="noopener">cpc.ncep.noaa.gov</a>).</dd>
+        <dt>ENSO and IOD state</dt><dd>WMO El Niño/La Niña Update and Global Seasonal Climate Update, 8 October 2026 (<a href="https://wmo.int/" target="_blank" rel="noopener">wmo.int</a>).</dd>
+        <dt>Risk and vulnerability</dt><dd>INFORM sub-national risk model for Timor-Leste by FAO and UNOSAT, last updated February 2025 (<a href="https://unosat-geodrr.cern.ch/apps/TLS/FAO-DSS/" target="_blank" rel="noopener">UNOSAT FAO-DSS</a>).</dd>
+        <dt>Crop calendars and potential impacts</dt><dd>OCHA ROAP, Asia and the Pacific El Niño Snapshot (28 August 2026): national crop calendar and expected impacts.</dd>
+        <dt>Crop calendar by suco</dt><dd>FAO crop phenology per suco for maize and rice, seasons 1 and 2: start, middle and end of season in dekads (10-day periods).</dd>
         <dt>Population</dt><dd>Total population 2025 by administrative post, from Populace. Ataúro is listed as its own municipality and Hatolia as Hatolia A and Hatolia B in that file; they are shown here under the Ataúro (Dili) and Hatolia administrative posts of the FAO boundaries.</dd>
+        <dt>Administrative boundaries</dt><dd>Administrative posts from FAO and UNOSAT (February 2025).</dd>
+        <dt>Basemap</dt><dd>UN OCHA ROAP Mapbox style, © Mapbox © OpenStreetMap.</dd>
       </dl>
     </div>
   </section>
 
   <footer class="tl-foot">
-    <span><b>Sources:</b> FAO Timor-Leste (Combined Drought Index, crop phenology); NOAA Climate Prediction Center (ENSO outlook); FAO and UNOSAT INFORM sub-national risk model (February 2025); Populace (population 2025); administrative boundaries from FAO/UNOSAT, simplified.</span>
+    <span class="tl-foot-about">Combined Drought Index (CDI), ENSO outlook, INFORM risk and vulnerability, and crop calendars for every administrative post, from FAO, NOAA and UNOSAT data. As of <span data-draw="period" data-source="periods" data-field="label">—</span> · Rainfall forecast for <span data-draw="period" data-source="periods" data-field="fc_label">—</span>.</span>
     <span>The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the United Nations.</span>
   </footer>
 </div>
@@ -3033,15 +3111,18 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
   const showPage = (id) => {
     document.querySelectorAll('.tl-page').forEach((s) => { s.hidden = s.id !== id; });
     document.querySelectorAll('.tl-tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === id)));
-    // The description and data date belong to the overview page only
-    document.querySelectorAll('.tl-intro').forEach((e) => { e.hidden = id !== 'cdi'; });
     dash.setLink(id);
   };
   document.querySelectorAll('.tl-tab').forEach((b) => b.addEventListener('click', () => showPage(b.dataset.tab)));
   if (['cdi', 'risk', 'crop', 'method'].includes(location.hash.slice(1))) showPage(location.hash.slice(1));
 
   document.querySelectorAll('.tl-layer').forEach((b) => b.addEventListener('click', () => dash.setParams({ layer: b.dataset.layer })));
-  document.querySelectorAll('.tl-dim').forEach((b) => b.addEventListener('click', () => dash.setParams({ dim: b.dataset.dim, ind: window.TL.INFORM[b.dataset.dim].all })));
+  // A risk dimension from the menu bar dropdown opens the Risk and vulnerability page on that dimension
+  document.querySelectorAll('.tl-dim').forEach((b) => b.addEventListener('click', () => {
+    dash.setParams({ dim: b.dataset.dim, ind: window.TL.INFORM[b.dataset.dim].all });
+    showPage('risk');
+    b.blur();
+  }));
   document.querySelectorAll('.tl-ind').forEach((s) => s.addEventListener('change', () => dash.setParams({ ind: s.value })));
   document.querySelectorAll('.tl-season').forEach((b) => b.addEventListener('click', () => dash.setParams({ season: Number(b.dataset.season) })));
   document.querySelectorAll('.tl-crop').forEach((b) => b.addEventListener('click', () => dash.setParams({ crop: b.dataset.crop })));
@@ -3448,11 +3529,12 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
   const ENSO_COL = { nino: '#F58220', neutral: '#c9ced6', nina: '#009EDB' };
   // NOAA CPC strength categories and colours: [column, label, fill, outline]
   const STRENGTH = [
-    ['en_vstrong', 'Very strong El Niño (2.0 °C or more)', '#8b1a10', '#8b1a10'], ['en_strong', 'Strong El Niño (1.5 to 2.0)', '#e5726b', '#c0392b'],
-    ['en_moderate', 'Moderate El Niño (1.0 to 1.5)', '#f0b5b3', '#d9534f'], ['en_weak', 'Weak El Niño (0.5 to 1.0)', '#fbe4e3', '#e06666'],
-    ['neutral', 'Neutral (−0.5 to 0.5)', '#d3d3d3', '#9e9e9e'],
-    ['ln_weak', 'Weak La Niña (−0.5 to −1.0)', '#e3e7fb', '#4a5fd8'], ['ln_moderate', 'Moderate La Niña (−1.0 to −1.5)', '#b6c1f5', '#4a5fd8'],
-    ['ln_strong', 'Strong La Niña (−1.5 to −2.0)', '#6e86f0', '#3a4fcf'], ['ln_vstrong', 'Very strong La Niña (−2.0 °C or less)', '#2531c8', '#2531c8'],
+    // Labels as in NOAA CPC's chart legend
+    ['en_vstrong', 'Very Strong El Niño: index ≥ 2.0°C', '#8b1a10', '#8b1a10'], ['en_strong', 'Strong El Niño: 1.5°C ≤ index < 2.0°C', '#e5726b', '#c0392b'],
+    ['en_moderate', 'Moderate El Niño: 1.0°C ≤ index < 1.5°C', '#f0b5b3', '#d9534f'], ['en_weak', 'Weak El Niño: 0.5°C ≤ index < 1.0°C', '#fbe4e3', '#e06666'],
+    ['neutral', 'Neutral: −0.5°C < index < 0.5°C', '#d3d3d3', '#9e9e9e'],
+    ['ln_weak', 'Weak La Niña: −0.5°C ≥ index > −1.0°C', '#e3e7fb', '#4a5fd8'], ['ln_moderate', 'Moderate La Niña: −1.0°C ≥ index > −1.5°C', '#b6c1f5', '#4a5fd8'],
+    ['ln_strong', 'Strong La Niña: −1.5°C ≥ index > −2.0°C', '#6e86f0', '#3a4fcf'], ['ln_vstrong', 'Very Strong La Niña: index ≤ −2.0°C', '#2531c8', '#2531c8'],
   ];
   const flagWord = (v) => (v >= 1 ? 'Declared' : v >= 0.5 ? 'Alert' : 'None');
   const outlook = () => { const d = dash.data('enso_outlook'); return d.status === 'ok' ? d.data.map((r) => ({ ...r, ...Object.fromEntries(['p5', 'p15', 'p25', 'p50', 'p75', 'p85', 'p95', 'la_nina', 'neutral', 'el_nino'].map((k) => [k, Number(r[k])])) })) : []; };
@@ -3484,12 +3566,13 @@ October 2026,MJJ,May-Jun-Jul 2027,-0.68,-0.41,-0.26,0.03,0.32,0.48,0.74,13,70,17
   dash.draw('ensokey', (el) => {
     const items = el.dataset.kind === 'prob'
       ? [[ENSO_COL.nino, 'El Niño'], [ENSO_COL.neutral, 'Neutral'], [ENSO_COL.nina, 'La Niña']]
-      : STRENGTH.map(([, label, c]) => [c, label]);
-    el.replaceChildren(...items.map(([c, t, line]) => {
+      : STRENGTH.map(([, label, c, edge]) => [c, label, null, edge]);
+    el.replaceChildren(...items.map(([c, t, line, edge]) => {
       const s = document.createElement('span');
       const i = document.createElement('i');
       i.className = 'tl-sw';
       i.style.background = c;
+      if (edge) i.style.border = '1px solid ' + edge;
       if (line) { i.style.height = '3px'; i.style.border = '0'; }
       s.append(i, t);
       return s;
